@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { GraduationCap, Trees, Users, Award, BookOpen, Compass, ShieldCheck, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import { useCMS } from "../../hooks/useCMS";
-import ScrollTypingText from "../animations/ScrollTypingText";
 
 const About = () => {
   const { data: cmsData } = useCMS('about');
@@ -43,11 +42,11 @@ const About = () => {
             Our Legacy
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-brand-text font-heading tracking-tight">
-            <ScrollTypingText 
-              text={cmsData?.page_title || "ABOUT RMCP ACADEMY"}
-              highlightWords={["RMCP", "ACADEMY"]}
-              highlightClass="text-brand-blue"
-            />
+            {cmsData?.page_title ? (
+        <span dangerouslySetInnerHTML={{ __html: String(cmsData?.page_title).replace('RMCP ACADEMY', '<span class="text-brand-blue">RMCP ACADEMY</span>') }} />
+      ) : (
+        <>ABOUT <span className="text-brand-blue">RMCP</span> <span className="text-brand-blue">ACADEMY</span></>
+      )}
           </h2>
           <div className="flex justify-center items-center gap-3 mt-4">
             <div className="w-12 h-1 bg-brand-orange rounded-full"></div>

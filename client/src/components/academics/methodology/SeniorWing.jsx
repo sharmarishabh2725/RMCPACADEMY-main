@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 import SeniorWingImg from "../../../assets/img/senior_wing.jpg";
 import { useCMS } from "../../../hooks/useCMS";
-import ScrollTypingText from "../../animations/ScrollTypingText";
 
 const SeniorWing = () => {
   const { data: cmsData } = useCMS('senior');
@@ -162,11 +161,11 @@ const SeniorWing = () => {
             Academics Wing
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-brand-text font-heading tracking-tight uppercase">
-            <ScrollTypingText 
-              text={cmsData?.wing_title ? cmsData.wing_title.split(' (')[0] : "Senior Wing"}
-              highlightWords={["Senior", "Wing"]}
-              highlightClass="text-brand-blue"
-            />
+            {cmsData?.wing_title ? (
+        <span dangerouslySetInnerHTML={{ __html: String(cmsData.wing_title.split(' (')[0]).replace('Senior Wing', '<span class="text-brand-blue">Senior Wing</span>') }} />
+      ) : (
+        <><span className="text-brand-blue">Senior</span> <span className="text-brand-blue">Wing</span></>
+      )}
           </h2>
           <div className="w-20 h-1.5 bg-brand-orange mx-auto my-4 rounded-full"></div>
           <p className="font-semibold text-brand-text/90 italic mt-2">

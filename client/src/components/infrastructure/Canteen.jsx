@@ -1,6 +1,5 @@
 import React from "react";
 import { Utensils, Store, Clock } from "lucide-react";
-import ScrollTypingText from "../animations/ScrollTypingText";
 
 import canteen1Img from "../../assets/img/canteen_1.jpeg";
 import canteen2Img from "../../assets/img/canteen_2.jpeg";
@@ -23,11 +22,7 @@ export default function Canteen() {
             Campus Dining
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-brand-text font-heading tracking-tight uppercase">
-            <ScrollTypingText 
-              text="Canteen Facility"
-              highlightWords={["Facility"]}
-              highlightClass="text-brand-blue"
-            />
+            <>Canteen <span className="text-brand-blue">Facility</span></>
           </h2>
           <div className="w-20 h-1.5 bg-brand-orange mx-auto my-4 rounded-full"></div>
           <p className="text-slate-655 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed italic">

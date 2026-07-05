@@ -12,7 +12,6 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { useCMS } from "../../hooks/useCMS";
-import ScrollTypingText from "../animations/ScrollTypingText";
 
 const LearningCenter = () => {
   const { data: cmsData } = useCMS('learning_center');
@@ -28,11 +27,11 @@ const LearningCenter = () => {
             Support Center
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-brand-text font-heading tracking-tight uppercase">
-            <ScrollTypingText 
-              text={cmsData?.facility_title || "Specialized Learning Centre"}
-              highlightWords={["Center", "Centre"]}
-              highlightClass="text-brand-blue"
-            />
+            {cmsData?.facility_title ? (
+        <span dangerouslySetInnerHTML={{ __html: String(cmsData?.facility_title).replace('Center Centre', '<span class="text-brand-blue">Center Centre</span>') }} />
+      ) : (
+        <>Specialized Learning <span className="text-brand-blue">Centre</span></>
+      )}
           </h2>
           <div className="w-20 h-1.5 bg-brand-orange mx-auto my-4 rounded-full"></div>
           <p className="text-slate-655 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed">

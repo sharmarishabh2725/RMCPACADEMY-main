@@ -7,7 +7,6 @@ import clinic3Img from "../../assets/img/clinic_3.jpeg";
 
 const clinicImages = [clinic1Img, clinic2Img, clinic3Img];
 import { useCMS } from "../../hooks/useCMS";
-import ScrollTypingText from "../animations/ScrollTypingText";
 
 export default function HealthClinic() {
   const { data: cmsData } = useCMS('health');
@@ -23,11 +22,11 @@ export default function HealthClinic() {
             Medical Care
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-brand-text font-heading tracking-tight uppercase">
-            <ScrollTypingText 
-              text={cmsData?.facility_title || "Health & Clinic"}
-              highlightWords={["Clinic"]}
-              highlightClass="text-brand-blue"
-            />
+            {cmsData?.facility_title ? (
+        <span dangerouslySetInnerHTML={{ __html: String(cmsData?.facility_title).replace('Clinic', '<span class="text-brand-blue">Clinic</span>') }} />
+      ) : (
+        <>Health & <span className="text-brand-blue">Clinic</span></>
+      )}
           </h2>
           <div className="w-20 h-1.5 bg-brand-orange mx-auto my-4 rounded-full"></div>
           <p className="text-slate-655 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed italic">

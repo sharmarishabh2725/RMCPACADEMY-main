@@ -9,7 +9,6 @@ const securityImages = [
   security1Img, security2Img, security3Img
 ];
 import { useCMS } from "../../hooks/useCMS";
-import ScrollTypingText from "../animations/ScrollTypingText";
 
 export default function Security() {
   const { data: cmsData } = useCMS('security');
@@ -25,11 +24,11 @@ export default function Security() {
             Campus Protection
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-brand-text font-heading tracking-tight uppercase">
-            <ScrollTypingText 
-              text={cmsData?.facility_title || "Security & Safety"}
-              highlightWords={["Safety"]}
-              highlightClass="text-brand-blue"
-            />
+            {cmsData?.facility_title ? (
+        <span dangerouslySetInnerHTML={{ __html: String(cmsData?.facility_title).replace('Safety', '<span class="text-brand-blue">Safety</span>') }} />
+      ) : (
+        <>Security & <span className="text-brand-blue">Safety</span></>
+      )}
           </h2>
           <div className="w-20 h-1.5 bg-brand-orange mx-auto my-4 rounded-full"></div>
           <p className="text-slate-655 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed italic">

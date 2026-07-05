@@ -177,12 +177,12 @@ const Hero = () => {
   return (
     <>
       {/* Scroll track wrapper */}
-      <div className="relative w-full h-[150vh] bg-[#0A2E5C]">
+      <div className="relative w-full h-[150vh] bg-brand-text">
         {/* Sticky viewport container */}
-        <div className="sticky top-0 w-full h-screen overflow-hidden flex flex-col lg:flex-row bg-[#0A2E5C]">
+        <div className="sticky top-0 w-full h-screen overflow-hidden flex flex-col lg:flex-row bg-brand-text">
         
         {/* Navy Panel Background & Overlay */}
-        <div className="absolute inset-0 w-full h-full bg-[#0A2E5C] z-0">
+        <div className="absolute inset-0 w-full h-full bg-brand-text z-0">
           <div className="absolute inset-0 opacity-[0.12] mix-blend-overlay">
             <img src={techImg} alt="Campus Background" className="w-full h-full object-cover" />
           </div>
@@ -205,7 +205,7 @@ const Hero = () => {
                 delay={80}
                 animateBy="letters"
                 direction="top"
-                className="font-serif italic text-[#A9CBEB] text-[5rem] sm:text-[7rem] lg:text-[8.5rem] leading-[0.8] whitespace-nowrap"
+                className="font-serif italic text-brand-blue-light text-[5rem] sm:text-[7rem] lg:text-[8.5rem] leading-[0.8] whitespace-nowrap"
                 style={{ textShadow: '0 10px 30px rgba(0,0,0,0.2)' }}
               />
             </div>
@@ -218,7 +218,7 @@ const Hero = () => {
               >
                 <button
                   onClick={() => navigate("/admissions/apply/primary")}
-                  className="inline-flex items-center gap-2 bg-[#B32025] hover:bg-[#8A181C] text-white text-sm font-sans font-bold uppercase tracking-wider px-8 py-4 rounded-full transition-all duration-300 hover:scale-105 shadow-xl cursor-pointer pointer-events-auto"
+                  className="inline-flex items-center gap-2 bg-brand-blue hover:bg-brand-blue-dark text-white text-sm font-sans font-bold uppercase tracking-wider px-8 py-4 rounded-full transition-all duration-300 hover:scale-105 shadow-xl cursor-pointer pointer-events-auto"
                 >
                   Explore RMCP Academy
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
@@ -285,7 +285,7 @@ const Hero = () => {
             playsInline
             className="w-full h-full object-cover opacity-80"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A2E5C] to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-text to-transparent"></div>
         </div>
 
         {/* Scroll Indicator */}

@@ -15,7 +15,6 @@ import aud3Img from "../../assets/img/aud_3.jpg";
 import aud4Img from "../../assets/img/aud_4.jpg";
 import AnimatedImage from "../ui/AnimatedImage";
 import { useCMS } from "../../hooks/useCMS";
-import ScrollTypingText from "../animations/ScrollTypingText";
 
 const Auditorium = () => {
   const { data: cmsData } = useCMS('auditorium');
@@ -31,11 +30,11 @@ const Auditorium = () => {
             Campus Infrastructure
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-brand-text font-heading tracking-tight uppercase">
-            <ScrollTypingText 
-              text={cmsData?.facility_title || "State-of-the-Art Auditorium"}
-              highlightWords={["Auditorium"]}
-              highlightClass="text-brand-blue"
-            />
+            {cmsData?.facility_title ? (
+        <span dangerouslySetInnerHTML={{ __html: String(cmsData?.facility_title).replace('Auditorium', '<span class="text-brand-blue">Auditorium</span>') }} />
+      ) : (
+        <>State-of-the-Art <span className="text-brand-blue">Auditorium</span></>
+      )}
           </h2>
           <div className="w-20 h-1.5 bg-brand-orange mx-auto my-4 rounded-full"></div>
           <p className="text-slate-655 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed">

@@ -4,7 +4,6 @@ import trans1Img from "../../assets/img/trans_1.jpg";
 import trans2Img from "../../assets/img/trans_2.jpeg";
 import trans3Img from "../../assets/img/trans_3.jpg";
 import { useCMS } from "../../hooks/useCMS";
-import ScrollTypingText from "../animations/ScrollTypingText";
 
 const transportationData = [
   {
@@ -41,11 +40,11 @@ export default function Transportation() {
             Transit Service
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-brand-text font-heading tracking-tight uppercase">
-            <ScrollTypingText 
-              text={cmsData?.facility_title || "Transportation Facility"}
-              highlightWords={["Facility"]}
-              highlightClass="text-brand-blue"
-            />
+            {cmsData?.facility_title ? (
+        <span dangerouslySetInnerHTML={{ __html: String(cmsData?.facility_title).replace('Facility', '<span class="text-brand-blue">Facility</span>') }} />
+      ) : (
+        <>Transportation <span className="text-brand-blue">Facility</span></>
+      )}
           </h2>
           <div className="w-20 h-1.5 bg-brand-orange mx-auto my-4 rounded-full"></div>
           <p className="text-slate-655 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed italic">

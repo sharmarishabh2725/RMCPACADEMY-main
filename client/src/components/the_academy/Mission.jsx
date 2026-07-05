@@ -3,7 +3,6 @@ import missionImg from "../../assets/img/mission.jpg";
 import { Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { useCMS } from "../../hooks/useCMS";
-import ScrollTypingText from "../animations/ScrollTypingText";
 
 const Mission = () => {
   const { data: cmsData } = useCMS('mission');
@@ -64,11 +63,11 @@ const Mission = () => {
                 Our Core Vision
               </div>
               <h2 className="text-3xl sm:text-5xl font-black text-brand-text font-heading leading-tight uppercase">
-                <ScrollTypingText 
-                  text={cmsData?.mission_title || "OUR MISSION STATEMENT"}
-                  highlightWords={["MISSION"]}
-                  highlightClass="text-brand-orange"
-                />
+                {cmsData?.mission_title ? (
+        <span dangerouslySetInnerHTML={{ __html: String(cmsData?.mission_title).replace('MISSION', '<span class="text-brand-orange">MISSION</span>') }} />
+      ) : (
+        <>OUR <span className="text-brand-orange">MISSION</span> STATEMENT</>
+      )}
               </h2>
               <div className="w-20 h-1.5 bg-brand-blue rounded-full mt-4"></div>
             </div>

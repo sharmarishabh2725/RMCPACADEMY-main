@@ -3,7 +3,6 @@ import principleImag from "../../assets/img/founders/principle.jpg";
 import { Quote } from "lucide-react";
 import { motion } from "framer-motion";
 import { useCMS } from "../../hooks/useCMS";
-import ScrollTypingText from "../animations/ScrollTypingText";
 
 const PrincipleMessage = () => {
   const { data: cmsData } = useCMS('principal');
@@ -29,11 +28,7 @@ const PrincipleMessage = () => {
               <div className="space-y-3 mb-8">
                 <span className="text-xs font-bold tracking-widest text-brand-orange uppercase block">Academic leadership</span>
                 <h2 className="text-3xl font-black text-brand-text font-heading uppercase">
-                  <ScrollTypingText 
-                    text="Principal's Message"
-                    highlightWords={["Message"]}
-                    highlightClass="text-brand-blue"
-                  />
+                  <>Principals <span className="text-brand-blue">Message</span></>
                 </h2>
                 <div className="w-16 h-1.5 bg-brand-orange rounded-full mt-3"></div>
               </div>

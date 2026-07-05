@@ -15,7 +15,6 @@ import {
 import { motion } from "framer-motion";
 import primaryWingImg from "../../../assets/img/primary_wing.jpg";
 import { useCMS } from "../../../hooks/useCMS";
-import ScrollTypingText from "../../animations/ScrollTypingText";
 
 const PrimaryWing = () => {
   const { data: cmsData } = useCMS('primary');
@@ -115,11 +114,11 @@ const PrimaryWing = () => {
                 Academics
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-brand-text font-heading leading-tight uppercase tracking-wide">
-                <ScrollTypingText 
-                  text={cmsData?.wing_title || "Primary Wing"}
-                  highlightWords={["Primary", "Wing"]}
-                  highlightClass="text-brand-blue"
-                />
+                {cmsData?.wing_title ? (
+        <span dangerouslySetInnerHTML={{ __html: String(cmsData?.wing_title).replace('Primary Wing', '<span class="text-brand-blue">Primary Wing</span>') }} />
+      ) : (
+        <><span className="text-brand-blue">Primary</span> <span className="text-brand-blue">Wing</span></>
+      )}
               </h2>
               <div className="w-20 h-1.5 bg-brand-blue rounded-full mt-4 mx-auto"></div>
             </div>

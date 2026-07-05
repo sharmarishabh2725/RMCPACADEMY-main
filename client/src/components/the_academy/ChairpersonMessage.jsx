@@ -3,7 +3,6 @@ import chairpersonImag from "../../assets/img/founders/chairperson.jpg";
 import { Quote } from "lucide-react";
 import { motion } from "framer-motion";
 import { useCMS } from "../../hooks/useCMS";
-import ScrollTypingText from "../animations/ScrollTypingText";
 
 const ChairpersonMessage = () => {
   const { data: cmsData } = useCMS('chairperson');
@@ -29,11 +28,7 @@ const ChairpersonMessage = () => {
               <div className="space-y-3 mb-8">
                 <span className="text-xs font-bold tracking-widest text-brand-orange uppercase block">Leadership Voice</span>
                 <h2 className="text-3xl font-black text-brand-text font-heading uppercase">
-                  <ScrollTypingText 
-                    text="CHAIRPERSON'S MESSAGE"
-                    highlightWords={["MESSAGE"]}
-                    highlightClass="text-brand-blue"
-                  />
+                  <>CHAIRPERSONS <span className="text-brand-blue">MESSAGE</span></>
                 </h2>
                 <div className="w-16 h-1.5 bg-brand-orange rounded-full mt-3"></div>
               </div>
