@@ -6,7 +6,10 @@ import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { BookOpen, Cpu, ShieldCheck, Award, ChevronLeft, ChevronRight, Play, Pause, Info, MapPin, PenTool, Volume2, VolumeX } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useCMS } from "../../hooks/useCMS";
+
 import ScrollReveal from "../ui/ScrollReveal";
+import BlurText from "../animations/BlurText";
+import ScrollFloat from "../animations/ScrollFloat";
 
 import sportImg from "../../assets/img/sport_4.jpg";
 import audImg from "../../assets/img/aud_4.jpg";
@@ -39,6 +42,27 @@ const AnimatedCounter = ({ value }) => {
 const Hero = () => {
   const [isPlaying, setIsPlaying] = useState(true);
   const videoRef = useRef(null);
+  const mobileVideoRef = useRef(null);
+
+  useEffect(() => {
+    const handleTimeUpdate = (e) => {
+      if (e.target.currentTime >= 60) {
+        e.target.currentTime = 0;
+        e.target.play();
+      }
+    };
+
+    const desktopVideo = videoRef.current;
+    const mobileVideo = mobileVideoRef.current;
+
+    if (desktopVideo) desktopVideo.addEventListener('timeupdate', handleTimeUpdate);
+    if (mobileVideo) mobileVideo.addEventListener('timeupdate', handleTimeUpdate);
+
+    return () => {
+      if (desktopVideo) desktopVideo.removeEventListener('timeupdate', handleTimeUpdate);
+      if (mobileVideo) mobileVideo.removeEventListener('timeupdate', handleTimeUpdate);
+    };
+  }, []);
 
   const handlePlayPause = () => {
     if (videoRef.current) {
@@ -101,18 +125,10 @@ const Hero = () => {
   };
   
   const panels = [
-    { id: 0, title: "Sports Complex", desc: "State-of-the-art facilities promoting physical excellence and teamwork.", img: sportImg, path: "/infrastructure/sports" },
-    { id: 1, title: "Grand Auditorium", desc: "Spacious venue for events, seminars, and cultural activities.", img: audImg, path: "/infrastructure/auditorium" },
-    { id: 2, title: "Learning Centers", desc: "Advanced science labs and technology-equipped smart classrooms.", img: techImg, path: "/infrastructure/learning-centre" }
+    { id: 0, title: "Sports Complex", desc: "State-of-the-art facilities promoting physical excellence and teamwork.", img: sportImg },
+    { id: 1, title: "Grand Auditorium", desc: "Spacious venue for events, seminars, and cultural activities.", img: audImg },
+    { id: 2, title: "Learning Centers", desc: "Advanced science labs and technology-equipped smart classrooms.", img: techImg }
   ];
-
-  const handlePanelClick = (panel) => {
-    if (activePanel === panel.id) {
-      navigate(panel.path);
-    } else {
-      setActivePanel(panel.id);
-    }
-  };
 
   useEffect(() => {
     const startYear = 2012;
@@ -161,57 +177,48 @@ const Hero = () => {
   return (
     <>
       {/* Scroll track wrapper */}
-      <div className="relative w-full h-[150vh] bg-brand-text">
+      <div className="relative w-full h-[150vh] bg-[#0A2E5C]">
         {/* Sticky viewport container */}
-        <div className="sticky top-0 w-full h-screen overflow-hidden flex flex-col lg:flex-row bg-brand-text">
+        <div className="sticky top-0 w-full h-screen overflow-hidden flex flex-col lg:flex-row bg-[#0A2E5C]">
         
         {/* Navy Panel Background & Overlay */}
-        <div className="absolute inset-0 w-full h-full bg-brand-text z-0">
+        <div className="absolute inset-0 w-full h-full bg-[#0A2E5C] z-0">
           <div className="absolute inset-0 opacity-[0.12] mix-blend-overlay">
             <img src={techImg} alt="Campus Background" className="w-full h-full object-cover" />
           </div>
         </div>
 
         {/* Text Layer (Positioned relative to the split to ensure perfect video overlap) */}
-        <div className="absolute left-0 top-0 w-full lg:w-[54%] h-full z-30 pointer-events-none flex items-center justify-center lg:justify-end lg:pr-16 pt-20">
-          <motion.div style={{ opacity: textOpacity, y: textY }} className="max-w-5xl mt-12 lg:mt-0 flex flex-col items-center lg:items-start text-center lg:text-left px-4 lg:px-0">
+        <div className="absolute left-0 top-0 w-full lg:w-[54%] h-[55%] lg:h-full z-30 pointer-events-none flex items-center justify-center lg:justify-start lg:pl-24 pt-24 lg:pt-20">
+          <motion.div style={{ opacity: textOpacity, y: textY }} className="max-w-5xl mt-8 lg:mt-0">
             
-            <div className="space-y-2 relative z-20">
-                <motion.h1 
-                  variants={banner}
-                  initial="initial"
-                  animate="animate"
-                  className="text-white font-heading font-black uppercase tracking-widest text-2xl sm:text-4xl lg:text-5xl mb-2"
-                >
-                  {sentence1.split("").map((char, index) => (
-                    <motion.span key={index} variants={letterAni} className="inline-block">
-                      {char === " " ? "\u00A0" : char}
-                    </motion.span>
-                  ))}
-                </motion.h1>
-                <motion.h2
-                  variants={banner2}
-                  initial="initial"
-                  animate="animate"
-                  className="font-heading font-extrabold text-brand-blue-light text-[4rem] sm:text-[7.5rem] lg:text-[9rem] leading-[0.9] tracking-tight drop-shadow-2xl"
-                >
-                  {sentence2.split("").map((char, index) => (
-                    <motion.span key={index} variants={letterAni} className="inline-block">
-                      {char === " " ? "\u00A0" : char}
-                    </motion.span>
-                  ))}
-                </motion.h2>
-              </div>
+            <div className="space-y-0 relative z-20 flex flex-col">
+              <BlurText
+                text={sentence1}
+                delay={50}
+                animateBy="letters"
+                direction="top"
+                className="text-white font-sans font-black uppercase tracking-widest text-sm sm:text-lg lg:text-xl mb-4"
+              />
+              <BlurText
+                text={sentence2}
+                delay={80}
+                animateBy="letters"
+                direction="top"
+                className="font-serif italic text-[#A9CBEB] text-[5rem] sm:text-[7rem] lg:text-[8.5rem] leading-[0.8] whitespace-nowrap"
+                style={{ textShadow: '0 10px 30px rgba(0,0,0,0.2)' }}
+              />
+            </div>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 1.8, ease: "easeOut" }}
-                className="mt-12 sm:mt-16 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 sm:gap-10 relative z-30"
+                className="mt-16 flex flex-col items-start gap-6 relative z-30"
               >
                 <button
                   onClick={() => navigate("/admissions/apply/primary")}
-                  className="inline-flex items-center gap-2 bg-brand-blue hover:bg-brand-blue-dark text-white text-sm font-sans font-bold uppercase tracking-wider px-8 py-4 rounded-full transition-all duration-300 hover:scale-105 shadow-xl cursor-pointer pointer-events-auto"
+                  className="inline-flex items-center gap-2 bg-[#B32025] hover:bg-[#8A181C] text-white text-sm font-sans font-bold uppercase tracking-wider px-8 py-4 rounded-full transition-all duration-300 hover:scale-105 shadow-xl cursor-pointer pointer-events-auto"
                 >
                   Explore RMCP Academy
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
@@ -270,6 +277,7 @@ const Hero = () => {
         {/* Mobile Video Panel */}
         <div className="lg:hidden absolute bottom-0 left-0 w-full h-[45%] z-0 overflow-hidden pointer-events-auto">
           <video
+            ref={mobileVideoRef}
             src={bgVideo}
             autoPlay
             muted
@@ -277,7 +285,7 @@ const Hero = () => {
             playsInline
             className="w-full h-full object-cover opacity-80"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-text to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A2E5C] to-transparent"></div>
         </div>
 
         {/* Scroll Indicator */}
@@ -311,7 +319,7 @@ const Hero = () => {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}
-          className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="max-w-[1600px] mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8"
         >
 
           <motion.div variants={fadeUpItem} className="flex items-center gap-5 p-6 rounded-2xl bg-white border border-brand-blue/10 hover:border-brand-blue/30 hover:shadow-xl hover:shadow-brand-blue/5 transition-all duration-300 group">
@@ -352,37 +360,37 @@ const Hero = () => {
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-blue/5 rounded-full blur-3xl pointer-events-none floating-blob" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-orange/5 rounded-full blur-3xl pointer-events-none floating-blob-slow" />
 
-        <div className="max-w-[1200px] mx-auto">
+        <div className="max-w-[1600px] mx-auto">
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
 
             {/* School Emblem Showcase Card */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
+              initial={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
+              whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              viewport={{ once: false, margin: "-100px" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="lg:col-span-5 flex justify-center"
+              className="lg:col-span-4 flex justify-center lg:justify-end lg:pr-4"
             >
-              <div className="relative p-10 rounded-3xl bg-brand-surface border border-brand-blue/10 shadow-2xl max-w-sm w-full group overflow-hidden premium-card-hover">
+              <div className="relative p-10 rounded-3xl bg-brand-surface border border-brand-blue/10 shadow-2xl max-w-md w-full group overflow-hidden premium-card-hover">
                 <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-brand-blue via-brand-yellow to-brand-orange" />
                 <div className="relative flex flex-col items-center text-center space-y-6">
-                  <div className="w-44 h-44 p-4 bg-white rounded-2xl border border-brand-blue/10 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
+                  <div className="w-52 h-52 p-4 bg-white rounded-2xl border border-brand-blue/10 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
                     <img src={rmcp_logo} alt="RMCP Academy Logo" className="w-full h-full object-contain" />
                   </div>
                   <div>
-                    <h3 className="font-black text-brand-text text-xl font-heading tracking-wide">RMCP Academy</h3>
-                    <p className="text-xs text-brand-blue font-bold tracking-widest mt-1.5 uppercase">Bilsanda, Uttar Pradesh</p>
+                    <h3 className="font-black text-brand-text text-2xl font-heading tracking-wide">RMCP Academy</h3>
+                    <p className="text-sm text-brand-blue font-bold tracking-widest mt-1.5 uppercase">Bilsanda, Uttar Pradesh</p>
                   </div>
                   <div className="w-full border-t border-brand-blue/10 pt-6 flex justify-around text-center">
                     <div>
-                      <span className="block text-2xl font-black text-brand-blue"><AnimatedCounter value={years} />+</span>
-                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Years Exp</span>
+                      <span className="block text-3xl font-black text-brand-blue"><AnimatedCounter value={years} />+</span>
+                      <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Years Exp</span>
                     </div>
                     <div className="border-l border-brand-blue/10" />
                     <div>
-                      <span className="block text-2xl font-black text-brand-orange">CBSE</span>
-                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Curriculum</span>
+                      <span className="block text-3xl font-black text-brand-orange">CBSE</span>
+                      <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Curriculum</span>
                     </div>
                   </div>
                 </div>
@@ -395,12 +403,13 @@ const Hero = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="lg:col-span-7 space-y-8"
+              className="lg:col-span-8 space-y-8"
             >
               <div className="space-y-3">
                 <span className="text-xs font-bold tracking-widest text-brand-orange uppercase block">Establishment</span>
-                <h2 className="text-3xl sm:text-5xl font-black text-brand-text leading-tight font-heading">
-                  Welcome to <span className="text-brand-blue">Our Academy</span>
+                <h2 className="text-3xl sm:text-5xl font-black text-brand-text leading-tight font-heading flex flex-wrap gap-x-2">
+                  <ScrollFloat text="Welcome to" className="text-brand-text" />
+                  <ScrollFloat text="Our Academy" className="text-brand-blue" />
                 </h2>
                 <div className="w-24 h-1.5 bg-brand-orange rounded-full mt-4" />
               </div>
@@ -478,12 +487,13 @@ const Hero = () => {
       {/* Campus Highlights Interactive Accordion */}
       <section className="w-full py-24 bg-brand-text relative overflow-hidden border-t border-white/10">
         <div className="absolute inset-0 bg-mesh opacity-20 pointer-events-none" />
-        <div className="max-w-[1400px] mx-auto px-6 relative z-10">
+        <div className="max-w-[1600px] mx-auto px-6 relative z-10">
           <ScrollReveal>
             <div className="text-center mb-16">
               <span className="text-[10px] font-bold tracking-[0.2em] text-brand-orange uppercase block mb-3">Campus Highlights</span>
-              <h2 className="text-3xl sm:text-5xl font-black text-white leading-tight font-heading">
-                Interactive <span className="text-brand-blue font-serif italic font-medium">Showcase</span>
+              <h2 className="text-3xl sm:text-5xl font-black text-white leading-tight font-heading flex flex-wrap justify-center gap-x-2">
+                <ScrollFloat text="Interactive" className="text-white" />
+                <ScrollFloat text="Showcase" className="text-brand-blue font-serif italic font-medium" />
               </h2>
               <p className="text-slate-400 mt-4 max-w-2xl mx-auto">Hover or tap on the panels to explore our world-class infrastructure.</p>
             </div>
@@ -495,7 +505,7 @@ const Hero = () => {
               <motion.div
                 key={panel.id}
                 onHoverStart={() => setActivePanel(panel.id)}
-                onClick={() => handlePanelClick(panel)}
+                onClick={() => setActivePanel(panel.id)}
                 layout
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 className={`relative rounded-3xl overflow-hidden cursor-pointer flex-shrink-0 lg:flex-shrink group border border-white/10 shadow-2xl ${activePanel === panel.id ? 'lg:flex-[3] h-[250px] sm:h-[300px] lg:h-full' : 'lg:flex-1 h-[120px] sm:h-[100px] lg:h-full'}`}
@@ -539,3 +549,4 @@ const Hero = () => {
 };
 
 export default Hero;
+
